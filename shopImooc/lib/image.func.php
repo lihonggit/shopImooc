@@ -1,16 +1,15 @@
 <?php
 require_once 'string.func.php';
-// Í¨¹ýGD¿â×öÑéÖ¤Âë
-function verifyImage($type=1,$length=4,$pixel=0,$line=10,$sses_name="verify")
+// é€šè¿‡GDåº“åšéªŒè¯ç 
+function verifyImage($type = 1, $length = 4, $pixel = 0, $line = 10, $sses_name = "verify")
 {
-//     session.stat();
-    // ´´½¨»­²¼
+    // åˆ›å»ºç”»å¸ƒ
     $width = 80;
     $height = 28;
     $image = imagecreatetruecolor($width, $height);
     $white = imagecolorallocate($image, 255, 255, 255);
     $balck = imagecolorallocate($image, 0, 0, 0);
-    // ÓÃÌî³ä¾ØÐÎÌî³ä»­²¼
+    // ç”¨å¡«å……çŸ©å½¢å¡«å……ç”»å¸ƒ
     imagefilledrectangle($image, 1, 1, $width - 2, $height - 2, $white);
     $chars = buildRandomString($type, $length);
     $_SESSION[$sses_name] = $chars;
@@ -24,19 +23,18 @@ function verifyImage($type=1,$length=4,$pixel=0,$line=10,$sses_name="verify")
         $text = substr($chars, $i, 1);
         imagettftext($image, $size, $angle, $x, $y, $color, $fontfile, $text);
     }
-    // ¼Óµã
+    // åŠ ç‚¹
     for ($i = 0; $i < $pixel; $i ++) {
         imagesetpixel($image, mt_rand(0, $width - 1), mt_rand(0, $height - 1), $balck);
     }
-    // ¼ÓÖ±Ïß
+    // åŠ ç›´çº¿
     for ($i = 0; $i < $line; $i ++) {
         $color = imagecolorallocate($image, mt_rand(50, 90), mt_rand(80, 200), mt_rand(90, 180));
         imageline($image, mt_rand(0, $width - 1), mt_rand(0, $height - 1), mt_rand(0, $width - 1), mt_rand(0, $height - 1), $color);
     }
-    header("content-type:image/gif");
+    header("content-type:image/jpg");
     imagegif($image);
     imagedestroy($image);
 }
-verifyImage();
 
-?>
+
