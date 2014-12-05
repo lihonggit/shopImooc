@@ -30,7 +30,7 @@ function insert($table, $array)
 
 /**
  * 更新都操作
- * 
+ *
  * @param unknown $table            
  * @param unknown $array            
  * @param string $where            
@@ -54,8 +54,9 @@ function update($table, $array, $where = null)
 
 /**
  * 删除操作
- * @param unknown $table
- * @param string $where
+ * 
+ * @param unknown $table            
+ * @param string $where            
  * @return number
  */
 function delete($table, $where = null)
@@ -68,25 +69,29 @@ function delete($table, $where = null)
 
 /**
  * 得到指定都一条数据
- * @param unknown $sql
- * @param string $result_type
+ * 
+ * @param unknown $sql            
+ * @param string $result_type            
  * @return multitype:
  */
-function fetchOne($sql,$result_type=MYSQL_ASSOC) {
-    $result=mysql_query($sql);
-    $row = mysql_fetch_array($result,$result_type);
+function fetchOne($sql, $result_type = MYSQL_ASSOC)
+{
+    $result = mysql_query($sql);
+    $row = mysql_fetch_array($result, $result_type);
     return $row;
 }
 
 /**
  * 得到结果集
- * @param unknown $sql
- * @param string $result_type
+ * 
+ * @param unknown $sql            
+ * @param string $result_type            
  * @return multitype:
  */
-function fetchAll($sql,$result_type=MYSQL_ASSOC) {
-    $result=mysql_query($sql);
-    while(@$row=mysql_fetch_array($result,$result_type)) {
+function fetchAll($sql, $result_type = MYSQL_ASSOC)
+{
+    $result = mysql_query($sql);
+    while (@$row = mysql_fetch_array($result, $result_type)) {
         $rows[] = $row;
     }
     return $rows;
@@ -94,10 +99,12 @@ function fetchAll($sql,$result_type=MYSQL_ASSOC) {
 
 /**
  * 得到结果集记录条数
- * @param unknown $sql
+ * 
+ * @param unknown $sql            
  * @return number
  */
-function getResultNum($sql) {
+function getResultNum($sql)
+{
     $result = mysql_query($sql);
     return mysql_num_rows($result);
 }

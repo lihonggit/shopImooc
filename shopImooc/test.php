@@ -1,28 +1,39 @@
 <?php
-function  hehe() {
-    header("content-type:text/html;charset=utf-8");
+class Car {
+    private $ary = array();
 
-    $table = "pig";
-    $array = array('name'=>"杨眉","type"=>"猪","sex"=>"雌");
-    $keys=join(",",array_keys($array));
-    $vals="'".join("','",array_values($array))."'";
-    $sql="insert {$table}($keys) values($vals)";
-    echo $sql;
-    echo "<br>";
-    
-    
-    $where = "你妈逼";
-//     $str = null;
-    foreach ($array as $key => $val) {
-        if ($str==null) {
-            $sep="";
-        }else {
-            $sep=",";
-        }
-        $str.=$sep.$key."='".$val."'";
-        $sql = "update {$table} set {$str} ".($where==null?null:"where ".$where).";";
+    public function __set($key, $val) {
+        $this->ary[$key] = $val;
     }
-    echo  $sql;
+
+    public function __get($key) {
+        if (isset($this->ary[$key])) {
+            return $this->ary[$key];
+        }
+        return null;
+    }
+
+    public function __isset($key) {
+        if (isset($this->ary[$key])) {
+            return true;
+        }
+        return false;
+    }
+
+    public function __unset($key) {
+        unset($this->ary[$key]);
+    }
 }
-hehe();
+// $car = new Car();
+// $car->name = 'hehe';  //name属性动态创建并赋值
+// $car->name2 = 'hehe';  //name属性动态创建并赋值
+// $car->name3 = 'hehe';  //name属性动态创建并赋值
+// echo $car->name;
+// echo $car->name2;
+// echo $car->name3;
+$arr = array(2,3,4);
+echo "<b>".var_dump( isset($b))."</b>";
+
+header("content-type:text/html");
+
     
