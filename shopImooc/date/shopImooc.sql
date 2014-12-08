@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS shopImooc;
 USE shopImooc;
--- ¹ÜÀíÔ±
+-- ç®¡ç†å‘˜
 DROP TABLE IF EXISTS imooc_admin;
 CREATE TABLE imooc_admin(
 id tinyint unsigned auto_increment key,
@@ -9,14 +9,14 @@ password varchar(32) not null unique,
 email varchar(50) not null unique
 );
 
--- ·ÖÀà±í
+-- åˆ†ç±»è¡¨
 DROP TABLE IF EXISTS imooc_cate;
 CREATE TABLE imooc_cate(
 id smallint unsigned auto_increment key,
 cName varchar(50) not null unique
 );
 
--- ÉÌÆ·±í
+-- å•†å“è¡¨
 DROP TABLE IF EXISTS imooc_pro;
 CREATE TABLE imooc_pro(
 id int unsigned auto_increment key,
@@ -33,18 +33,18 @@ isHot tinyint(1) default 0,
 cId smallint unsigned not null
 );
 
--- ÓÃ»§±í
+-- ç”¨æˆ·è¡¨
 DROP TABLE IF EXISTS imooc_user;
 CREATE TABLE imooc_user(
 id int unsigned auto_increment key,
 username varchar(20) not null unique,
 password char(32) not null,
-sex enum("±£ÃÜ","Å®","ÄĞ") not null,
+sex enum("ä¿å¯†","å¥³","ç”·") not null,
 face varchar(50) not null,
 regTime int unsigned not null
 );
 
--- Ïà²á±í
+-- ç›¸å†Œè¡¨
 DROP TABLE IF EXISTS imooc_album;
 CREATE TABLE imooc_album(
 id int unsigned auto_increment key,

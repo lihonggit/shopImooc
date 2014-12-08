@@ -41,7 +41,7 @@ if (! $rows) {
 					<td><?php echo $row["email"];?></td>
 					<td align="center"><input type="button" value="修改"
 						onclick="editAdmin(<?php echo $row['id']?>)" class="btn"><input
-						type="button" value="删除" class="btn"></td>
+						type="button" value="删除" onclick="delAdmin(<?php echo $row['id']?>)" class="btn"></td>
 				</tr>
 			<?php $i++; endforeach;?>
 			</tbody>
@@ -51,6 +51,11 @@ if (! $rows) {
 <script type="text/javascript">
 function editAdmin(id) {
     window.location="editAdmin.php?id="+id;
+}
+function delAdmin(id) {
+	if(window.confirm("您确定要删除吗？删除之后不可恢复!")) {
+	    window.location="doAdminAction.php?act=delAdmin&id="+id;
+	}
 }
 </script>
 </html>

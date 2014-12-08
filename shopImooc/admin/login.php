@@ -29,7 +29,7 @@
 				<ul class="login">
 					<li class="l_tit">邮箱/用户名/手机号</li>
 					<li class="mb_10"><input type="text" name="username"
-						class="login_input user_icon"></li>
+						class="login_input user_icon" value="lihong"></li>
 					<li class="l_tit">密码</li>
 					<li class="mb_10"><input type="password" name="password"
 						class="login_input password_icon"></li>
