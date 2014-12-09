@@ -4,12 +4,18 @@ $act=$_REQUEST['act'];
 @$id=$_REQUEST['id'];
 if ($act=="logout") {
     $mes = logout();
-} else if($act=="addAdmin") {
+} elseif($act=="addAdmin") {
     $mes = addAdmin();
 } elseif ($act=="editAdmin") {
     $mes = editAdmin($id);
 } elseif ($act=="delAdmin") {
     $mes = delAdmin($id);
+} elseif ($act=="addCate") {
+    $mes = addCate();
+} elseif ($act == "delCate") {
+    $mes = delCate($id);
+} elseif ($act == "editCate") {
+    $mes = editCate($id);
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

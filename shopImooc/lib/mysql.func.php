@@ -29,7 +29,7 @@ function insert($table, $array)
 }
 
 /**
- * 更新都操作
+ * 更新的操作
  *
  * @param unknown $table            
  * @param unknown $array            
@@ -48,13 +48,17 @@ function update($table, $array, $where = null)
         $str .= $sep . $key . "='" . $val . "'";
     }
     $sql = "update {$table} set {$str} " . ($where == null ? null : "where " . $where);
-    mysql_query($sql);
-    return mysql_affected_rows();
+    $result = mysql_query($sql);
+    if ($result) {
+        return mysql_affected_rows();
+    } else {
+        return false;
+    }
 }
 
 /**
  * 删除操作
- * 
+ *
  * @param unknown $table            
  * @param string $where            
  * @return number
@@ -69,7 +73,7 @@ function delete($table, $where = null)
 
 /**
  * 得到指定都一条数据
- * 
+ *
  * @param unknown $sql            
  * @param string $result_type            
  * @return multitype:
@@ -83,7 +87,7 @@ function fetchOne($sql, $result_type = MYSQL_ASSOC)
 
 /**
  * 得到结果集
- * 
+ *
  * @param unknown $sql            
  * @param string $result_type            
  * @return multitype:
@@ -99,7 +103,7 @@ function fetchAll($sql, $result_type = MYSQL_ASSOC)
 
 /**
  * 得到结果集记录条数
- * 
+ *
  * @param unknown $sql            
  * @return number
  */

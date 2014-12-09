@@ -31,8 +31,19 @@ class Car {
 // echo $car->name;
 // echo $car->name2;
 // echo $car->name3;
-$arr = array(2,3,4);
+// $arr = array(2,3,4);
+
+/**
+ * 结论：isset函数用于判断一个变量是否已声明
+ */
 echo "<b>".var_dump( isset($b))."</b>";
+
+/**
+ * 结论：ceil函数为取整函数，例如1.00取整后为1，1.01取整后为2；
+ */ 
+echo ceil(1.00);
+echo ceil(3.56);
+echo ceil(6.50);
 
 header("content-type:text/html");
 

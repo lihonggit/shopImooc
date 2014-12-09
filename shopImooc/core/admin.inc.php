@@ -73,7 +73,7 @@ function editAdmin($id) {
     if (update("imooc_admin", $arr,"id={$id}")) {
         $mes = "编辑成功！<a href='listAdmin.php'>查看管理员列表</a>";
     } else {
-        $mes = "编辑失败！<a href='listAdmin.php'>请重新修改</a>";
+        $mes = "编辑失败！<a href='listAdmin.php'>重新修改</a>";
     }
     return $mes;
 }
@@ -87,7 +87,8 @@ function delAdmin($id) {
     if (delete("imooc_admin","id={$id}")) {
         $mes = "删除成功！<a href='listAdmin.php'>查看管理员列表</a>";
     } else {
-        $mes = "删除失败！<a href='listAdmin.php'>请重新删除</a>";
+        $mes = "删除失败！<a href='listAdmin.php'>重新删除</a>";
     }
     return $mes;
 }
+
