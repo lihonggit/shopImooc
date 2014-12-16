@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS shopImooc;
+CREATE DATABASE shopImooc DEFAULT CHARACTER SET utf8;
 USE shopImooc;
 -- 管理员
 DROP TABLE IF EXISTS imooc_admin;

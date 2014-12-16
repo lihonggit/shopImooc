@@ -1,20 +1,25 @@
 <?php
 require_once '../include.php';
-$page=@$_REQUEST['page']?(int)$_REQUEST['page']:1;
 $pageSize = 2;
+$page = @$_REQUEST['page'] ? (int) $_REQUEST['page'] : 1;
 $sql = "select * from imooc_cate";
 $totalRows = getResultNum($sql);
 // 得到总页码数
 $totalPage = ceil($totalRows / $pageSize);
+if ($page > $totalPage) {
+    $page = $totalPage;
+}
 if ($page == null || ! is_numeric($page) || $page < 0) {
     $page = 1;
 }
-if ($page > $totalPage)
-    $page = $totalPage;
 $offset = ($page - 1) * $pageSize;
 // limit index,length 好像就是位置和长度的意思
 $sql = "select id,cName from imooc_cate order by id asc limit {$offset},{$pageSize}";
 $rows = fetchAll($sql);
+if (! $rows) {
+    alertMes("sorry,没有分类,请添加!", "addCate.php");
+    exit();
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -53,7 +58,7 @@ $rows = fetchAll($sql);
 						onclick="delCate(<?php echo $row['id']?>)" class="btn"></td>
 				</tr>
 			<?php endforeach;?>
-			<?php if ($rows>$pageSize):?>
+			<?php if ($totalRows>0):?>
     			<tr>
 					<td colspan="4"><?php echo showPage($page,$totalPage)?></td>
 				</tr>
