@@ -7,10 +7,14 @@
 </head>
 <body>
 	<!-- enctype是告诉我们表单在发送数据之前是如何对文件进行编码的 -->
-	<form action="doAction1.php" method="post" enctype="multipart/form-data">
+	<form action="doActionMoreFile1.php" method="post" enctype="multipart/form-data">
         <input type="hidden" name="MAX_FILE_SIZE" value="512000" />
-		<input type="file" name="myFile" accept="image/jpeg,image/gif"/> <br /> <input type="submit"
-			value="上传" />
+		请选择文件<input type="file" name="myFile1"/> <br /> 
+		请选择文件<input type="file" name="myFile[]"/> <br /> 
+		请选择文件<input type="file" name="myFile2"/> <br /> 
+		请选择文件<input type="file" name="myFile[]"/> <br /> 
+		请选择文件<input type="file" name="myFile[]"/> <br /> 
+		<input type="submit" value="上传" />
 	</form>
 </body>
 </html>
