@@ -14,3 +14,15 @@ function buildRandomString($type = 1, $length = 4)
     $chars = str_shuffle($chars);
     return substr($chars, 0, $length);
 }
+
+/**
+ * 生成唯一字符串heh
+ * @return string
+ */
+function getUniName(){
+    return md5(uniqid(microtime(true),true));
+}
+
+function getExt($fileName){
+    return strtolower(end(explode(".", $fileName)));
+}
