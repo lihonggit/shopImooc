@@ -2,6 +2,15 @@
 require_once '../lib/string.func.php';
 header("content-type:text/html;charset=utf8;");
 
+/**
+ * 单个文件上传
+ * @param unknown $fileInfo
+ * @param unknown $allowExt
+ * @param number $maxSize
+ * @param string $imgFlag
+ * @param string $path
+ * @return string
+ */
 function uploadFile($fileInfo, $allowExt = array("gif","jpeg","jpg","png","wbmp"), $maxSize = 512000, $imgFlag = true,$path = "uploads")
 {
     // $type = $fileInfo['type'];
@@ -68,4 +77,131 @@ function uploadFile($fileInfo, $allowExt = array("gif","jpeg","jpg","png","wbmp"
         }
     }
     return $mes;
+}
+
+
+/**
+ * 构建上传文件信息
+ * @return array
+ */
+function buildInfo() {
+    $i = 0;
+    foreach ($_FILES as $v ) {
+        /* 单文件 */
+        if (is_string($v['name'])) {
+            $files[$i] = $v;
+            $i++;
+        } else {
+            /* 多文件 */
+            foreach ($v['name'] as $key => $val) {
+                $files[$i]['name'] = $val;
+                $files[$i]['size'] = $v['size'][$key];
+                $files[$i]['tmp_name'] = $v['tmp_name'][$key];
+                $files[$i]['error'] = $v['error'][$key];
+                $files[$i]['type'] = $v['type'][$key];
+                $i++;
+            }
+        }
+    }
+    return $files;
+}
+
+/**
+ * 多文件上传
+ *
+ */
+function uploadFiles($allowExt = array("gif","jpeg","jpg","png","wbmp"), $maxSize = 2097152, $imgFlag = true,$path = "uploads") {
+    // 检查文件夹
+    if (!file_exists($path)) {
+        mkdir($path,0777,true);
+    }
+    $i=0;
+    $files=@buildInfo();
+    if (!isset($files)) {
+        exit("请不要上传不能被识别的文件，错误:$"."_"."FILES"." is empty");
+    }
+    foreach ($files as $file) {
+        $tmp_name = $file['tmp_name'];
+        $error = $file['error'];
+        $size = $file['size'];
+        $type = $file['type'];
+        $name = $file['name'];
+        if($error==UPLOAD_ERR_OK) {
+            $ext = getExt($name);
+            // 检查文件拓展名
+            if (!in_array($ext, $allowExt)) {
+                exit("非法文件类型");
+            }
+            // 检查大小
+            if ($size > $maxSize) {
+                exit("文件过大");
+            }
+            // 检查是否是使用POST HTTP方式上传
+            if (!is_uploaded_file($tmp_name)) {
+                exit("不是使用POST HTTP方式上传");
+            }
+            // 检查是否是图片类型
+            if ($imgFlag && !getimagesize($tmp_name)) {
+                exit("不是真正的图片类型");
+            }
+            $uniName = getUniName().'.'.$ext;
+            $destination = $path."/".$uniName;
+            if (move_uploaded_file($tmp_name, $destination)) {
+                $file['name'] = $uniName;
+                unset($file['tmp_name'],$file['error'],$file['size'],$file['type']);
+                $uploadedFiles[$i] = $file;
+                $i++;
+            }
+        } else {
+            switch($error){
+                case 1:
+                    $mes="超过了配置文件上传文件的大小";//UPLOAD_ERR_INI_SIZE
+                    break;
+                case 2:
+                    $mes="超过了表单设置上传文件的大小";			//UPLOAD_ERR_FORM_SIZE
+                    break;
+                case 3:
+                    $mes="文件部分被上传";//UPLOAD_ERR_PARTIAL
+                    break;
+                case 4:
+                    $mes="没有文件被上传";//UPLOAD_ERR_NO_FILE
+                    break;
+                case 6:
+                    $mes="没有找到临时目录";//UPLOAD_ERR_NO_TMP_DIR
+                    break;
+                case 7:
+                    $mes="文件不可写";//UPLOAD_ERR_CANT_WRITE;
+                    break;
+                case 8:
+                    $mes="由于PHP的扩展程序中断了文件上传";//UPLOAD_ERR_EXTENSION
+                    break;
+            }
+            echo $mes;
+        }
+    }
+    return $uploadedFiles;
+}
+
+/**
+ * 保存不同大小的图片
+ */
+function resizeImage() {
+    $filename = "des_big.jpg";
+    //得到文件类型
+    list($src_w,$src_h,$imagetype) = getimagesize($filename);
+    $mime = image_type_to_mime_type($imagetype);
+    //得到方法名，通过拼接字符串得到，这样子做是为了能够处理不同类型的图片
+    $createFun=str_replace("/", "createfrom", $mime);
+    $outFun=str_replace("/", null, $mime);
+    
+    $defSize = array(50,220,350,800);
+    $src_image=$createFun($filename);
+    foreach ($defSize as $v) {
+        $dst_image = imagecreatetruecolor($v, $v);
+        imagecopyresampled($dst_image, $src_image, 0, 0, 0, 0, $v, $v, $src_w, $src_h);
+        $outFun($dst_image,"uploads/image_".$v."/".$filename);
+        imagedestroy($dst_image);
+    }
+    imagedestroy($src_image);
+    
 }

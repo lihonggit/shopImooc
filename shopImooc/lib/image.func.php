@@ -37,4 +37,40 @@ function verifyImage($type = 1, $length = 4, $pixel = 0, $line = 10, $sses_name 
     imagedestroy($image);
 }
 
+/**
+ * 生成缩略图
+ * @param string $fileName
+ * @param string $destination
+ * @param int $dst_w
+ * @param int $dst_h
+ * @param number $scale
+ * @param bool $isReservedSource
+ * @return Ambigous <string, unknown>
+ */
+function thumb($fileName,$destination=null,$dst_w=null,$dst_h=null,$scale=0.5,$isReservedSource=true) {
+    //得到文件类型
+    list($src_w,$src_h,$imagetype) = getimagesize($fileName);
+    if (is_null($dst_w)||is_null($dst_h)) {
+        $dst_w = ceil($src_w*$scale);
+        $dst_h = ceil($src_h*$scale);
+    }
+    $mime = image_type_to_mime_type($imagetype);
+    //得到方法名，通过拼接字符串得到，这样子做是为了能够处理不同类型的图片
+    $createFun=str_replace("/", "createfrom", $mime);
+    $outFun=str_replace("/", null, $mime);
+
+    $src_image=$createFun($fileName);
+    $dst_image = imagecreatetruecolor($dst_w, $dst_h);
+    imagecopyresampled($dst_image, $src_image, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+
+    $destination = $destination==null?getUniName().'.'.getExt($fileName):$destination;
+
+    $outFun($dst_image,$destination);
+    imagedestroy($dst_image);
+    imagedestroy($src_image);
+    if (!$isReservedSource) {
+        unlink($fileName);
+    }
+    return $destination;
+}
 
